@@ -68,14 +68,10 @@ private:
     HCRYPTHASH hHash;
     PBYTE pbBuffer, pbSignBuffer;
 
-    QString rawText, modifiedText;
     HCERTSTORE hCertStore;
     PCCERT_CONTEXT pSignerCert;
     BYTE  *pbSignedMessageBlob;
-    DWORD cbSignedMessageBlob;
 
-    CRYPT_SIGN_MESSAGE_PARA SigParams;
-    CRYPT_VERIFY_MESSAGE_PARA VerifyParams;
 };
 
 #endif // MAINWINDOW_H

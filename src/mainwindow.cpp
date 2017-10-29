@@ -433,7 +433,6 @@ bool MainWindow::mySignMessage()
     pbBuffer = NULL, pbSignBuffer = NULL;
     hCertStore = NULL;
     pSignerCert = NULL;
-    cbSignedMessageBlob = NULL;
     pbSignedMessageBlob = NULL;
     hSourceFile = INVALID_HANDLE_VALUE;
     hDestinationFile = INVALID_HANDLE_VALUE;
@@ -506,6 +505,7 @@ bool MainWindow::mySignMessage()
         return false;
     }
 
+	CRYPT_SIGN_MESSAGE_PARA SigParams;
     SigParams.cbSize = sizeof (CRYPT_SIGN_MESSAGE_PARA);
     SigParams.dwMsgEncodingType = MY_ENCODING_TYPE;
     SigParams.pSigningCert = pSignerCert;
@@ -521,6 +521,7 @@ bool MainWindow::mySignMessage()
     SigParams.pvHashAuxInfo = NULL;
     SigParams.rgAuthAttr = NULL;
 
+	DWORD cbSignedMessageBlob = NULL;
     if (!CryptSignMessage(&SigParams, TRUE, 1, MessageArray, MessageSizeArray,
         NULL, &cbSignedMessageBlob)) {
 
@@ -655,6 +656,7 @@ bool MainWindow::myVerifySignedMessage()
     DWORD_PTR MessageSizeArray[1];
     MessageSizeArray[0] = dwCount;
 
+	CRYPT_VERIFY_MESSAGE_PARA VerifyParams;
     VerifyParams.cbSize = sizeof (CRYPT_VERIFY_MESSAGE_PARA);
     VerifyParams.dwMsgAndCertEncodingType = MY_ENCODING_TYPE;
     VerifyParams.hCryptProv = 0;
