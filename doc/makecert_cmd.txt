@@ -1,7 +1,0 @@
-makecert -n "cn=Имя_сертификата" -sk Имя_контейнера_ключей -ss Хранилище
-
-Makecert.exe может отсутствовать на компьютере
-
-Пример запуска из cmd:
-
-"C:\Program Files (x86)\Windows Kits\8.1\bin\x64\makecert.exe" -n "cn=TestCert" -sk TestKeys -ss my
