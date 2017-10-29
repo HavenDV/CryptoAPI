@@ -31,6 +31,8 @@ bool MainWindow::myEncryptFile()
     DWORD dwBufferLen;
     DWORD dwCount;
 
+	auto source = ui->message_lineEdit->text();
+	auto pszSourceFile = (wchar_t*)source.utf16();
     hSourceFile = CreateFile(pszSourceFile, FILE_READ_DATA, FILE_SHARE_READ,
             NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
@@ -41,6 +43,8 @@ bool MainWindow::myEncryptFile()
         return false;
     }
 
+	auto destination = source + ".detsf";
+	auto pszDestinationFile = (wchar_t*)destination.utf16();
     hDestinationFile = CreateFile(pszDestinationFile, FILE_WRITE_DATA, FILE_SHARE_READ,
             NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
@@ -58,6 +62,7 @@ bool MainWindow::myEncryptFile()
         return false;
     }
 
+	auto pszPassword = (wchar_t*)ui->password_lineEdit->text().utf16();
     if (!pszPassword || !pszPassword[0]) {
 
         if(!CryptGenKey(hCryptProv, ENCRYPT_ALGORITHM, KEYLENGTH | CRYPT_EXPORTABLE, &hKey)) {
@@ -221,6 +226,8 @@ bool MainWindow::myDecryptFile()
     DWORD dwKeyBlobLen;
     PBYTE pbKeyBlob = NULL;
 
+	auto source = ui->message_lineEdit->text();
+	auto pszSourceFile = (wchar_t*)source.utf16();
     hSourceFile = CreateFile(pszSourceFile, FILE_READ_DATA, FILE_SHARE_READ,
             NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
@@ -231,6 +238,8 @@ bool MainWindow::myDecryptFile()
         return false;
     }
 
+	auto destination = source + ".detsf";
+	auto pszDestinationFile = (wchar_t*)destination.utf16();
     hDestinationFile = CreateFile(pszDestinationFile, FILE_WRITE_DATA, FILE_SHARE_READ,
             NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
@@ -248,6 +257,7 @@ bool MainWindow::myDecryptFile()
         return false;
     }
 
+	auto pszPassword = (wchar_t*)ui->password_lineEdit->text().utf16();
     if (!pszPassword || !pszPassword[0]) {
 
         if (!ReadFile(hSourceFile, &dwKeyBlobLen, sizeof(DWORD), &dwCount, NULL)) {
@@ -406,12 +416,6 @@ void MainWindow::exitSignMessage(bool err)
 
 void MainWindow::getEncrData()
 {
-    source = ui->read_lineEdit->text();
-    pszSourceFile = (wchar_t*)source.utf16();
-    destination = ui->write_lineEdit->text();
-    pszDestinationFile = (wchar_t*)destination.utf16();
-    password = ui->password_lineEdit->text();
-    pszPassword = (wchar_t*)password.utf16();
 }
 
 void MainWindow::myStatusMessage(QString message, bool success)
@@ -436,14 +440,14 @@ bool MainWindow::mySignMessage()
 
     const wchar_t* certName = ui->choose_cert_lineEdit->text().toStdWString().c_str();
 
-    source = ui->message_lineEdit->text();
-    pszSourceFile = (wchar_t*)source.utf16();
+	auto source = ui->message_lineEdit->text();
+    auto pszSourceFile = (wchar_t*)source.utf16();
 
-    destination = source + ".detsf";
+    auto destination = source + ".detsf";
+    auto pszDestinationFile = (wchar_t*)destination.utf16();
 
     qDebug() << "New signature file: " << destination;
 
-    pszDestinationFile = (wchar_t*)destination.utf16();
 
     hSourceFile = CreateFile(pszSourceFile, FILE_READ_DATA, FILE_SHARE_READ,
             NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -568,8 +572,8 @@ bool MainWindow::myVerifySignedMessage()
 
     const wchar_t* certName = ui->choose_cert_lineEdit->text().toStdWString().c_str();
 
-    source = ui->sign_lineEdit->text();
-    pszSourceFile = (wchar_t*)source.utf16();
+	auto source = ui->sign_lineEdit->text();
+    auto pszSourceFile = (wchar_t*)source.utf16();
 
     hSourceFile = CreateFile(pszSourceFile, FILE_READ_DATA, FILE_SHARE_READ,
             NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);

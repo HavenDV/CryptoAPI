@@ -61,8 +61,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    QString source, destination, password;
-    LPTSTR pszSourceFile, pszDestinationFile, pszPassword;
 	HANDLE hSourceFile;
 	HANDLE hDestinationFile;
     HCRYPTPROV hCryptProv;
