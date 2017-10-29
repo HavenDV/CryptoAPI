@@ -30,39 +30,28 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    bool myEncryptFile();
-    bool myDecryptFile();
+    bool encryptFile(const QString & path);
+    bool decryptFile(const QString & path);
     void exitFile();
     void exitSignMessage(bool err = true);
-    void getEncrData();
-    void myStatusMessage(QString message, bool success = false);
-    bool mySignMessage();
-    bool myVerifySignedMessage();
+    void statusMessage(QString message, bool success = false);
+    bool signMessage();
+    bool verifySignedMessage();
     void displayModifiedText(BYTE *pb, DWORD cb);
 
 private slots:
     void on_encrypt_pushButton_clicked();
-
     void on_decrypt_pushButton_clicked();
-
     void on_sign_pushButton_clicked();
-
     void on_verify_pushButton_clicked();
-
     void on_choose_file1_pushButton_clicked();
-
     void on_choose_file2_pushButton_2_clicked();
-
     void on_choose_cert_pushButton_clicked();
-
     void on_message_pushButton_clicked();
-
     void on_sign_pushButton_2_clicked();
 
 private:
     Ui::MainWindow *ui;
-	HANDLE hSourceFile;
-	HANDLE hDestinationFile;
     HCRYPTPROV hCryptProv;
     HCRYPTKEY hKey;
     HCRYPTHASH hHash;
